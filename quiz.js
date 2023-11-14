@@ -57,8 +57,20 @@ const quesJSON = [
     const questionEl = document.getElementById("question");
     const optionEl = document.getElementById("options");
     const scoreEl = document.getElementById("score");
+    const nextEl = document.getElementById("next");
+
+
+  //calling the show question function
+  showQuestion();
+  nextEl.addEventListener('click',()=>{
+    scoreEl.textContent = `Score: ${score}`;
+    nextQuestion();
+  })
+
+
     function showQuestion(){
        // Destructuring the object
+       console.log(currentQuestion);
      const{correctAnswer, options, question} = quesJSON[currentQuestion];
 
       //Setting question text content
@@ -80,12 +92,23 @@ const quesJSON = [
           else{
               score=score-0.25;
           }
-      console.log(score);
+  
       scoreEl.textContent = `Score: ${score}`;
-      questionEl.textContent = 'Quiz Completed!!';
-      optionEl.textContent = '';
-          });
+      nextQuestion();
+        });
       });
+  }
+  //function for showing the next function
+  function nextQuestion(){
+    currentQuestion++;
+    optionEl.textContent = '';
+    if(currentQuestion>=quesJSON.length){
+      questionEl.textContent='Quiz Completed!!';
+      nextEl.remove();
+    }
+    else{
+      showQuestion();
+    }
   }
 
 //Shuffling the Options
